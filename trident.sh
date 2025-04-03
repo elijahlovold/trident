@@ -6,7 +6,7 @@
 
 trident() {
     local JUMP_FILE=~/.trident
-    local VERSION=1.0
+    local VERSION=1.0.1
 
     case "$1" in
         jump|-j)
@@ -44,6 +44,9 @@ trident() {
             echo "  list, -l        - Show jump list."
             echo "  help, -h        - Show this message."
             echo "  version, -v     - Show version."
+            ;;
+        version|-v) 
+            echo "$VERSION"
             ;;
         *)
             echo "Invalid option. Use 'trident help' for usage."
