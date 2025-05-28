@@ -5,7 +5,7 @@
 #    `--'   `--'   `--' `---'  `----'`--''--'  `--'   
 
 trident() {
-    local JUMP_FILE=~/.trident
+    local JUMP_FILE=$XDG_CACHE_HOME/trident
     local VERSION=1.0.1
 
     case "$1" in
@@ -69,21 +69,37 @@ _trident_completions() {
     fi
 }
 
-complete -F _trident_completions trident
+if [[ -n "$BASH_VERSION" ]]; then
+    complete -F _trident_completions trident
+    # If we're in Bash, use bind
+    bind '"\e1":"\C-utrident jump 1\n"'
+    bind '"\e2":"\C-utrident jump 2\n"'
+    bind '"\e3":"\C-utrident jump 3\n"'
+    bind '"\e4":"\C-utrident jump 4\n"'
+    bind '"\e5":"\C-utrident jump 5\n"'
+    bind '"\e6":"\C-utrident jump 6\n"'
+    bind '"\e7":"\C-utrident jump 7\n"'
+    bind '"\e8":"\C-utrident jump 8\n"'
+    bind '"\e9":"\C-utrident jump 9\n"'
+    bind '"\e0":"\C-utrident jump 10\n"'
 
-# bindings
-bind '"\e1":"\C-utrident jump 1\n"'
-bind '"\e2":"\C-utrident jump 2\n"'
-bind '"\e3":"\C-utrident jump 3\n"'
-bind '"\e4":"\C-utrident jump 4\n"'
-bind '"\e5":"\C-utrident jump 5\n"'
-bind '"\e6":"\C-utrident jump 6\n"'
-bind '"\e7":"\C-utrident jump 7\n"'
-bind '"\e8":"\C-utrident jump 8\n"'
-bind '"\e9":"\C-utrident jump 9\n"'
-bind '"\e0":"\C-utrident jump 10\n"'
+    bind '"\ea":"\033[Htrident add \n"'
 
-bind '"\ea":"\033[Htrident add \n"'
+    bind -x '"\C-e" : trident "edit"'
 
-bind -x '"\C-e" : trident "edit"'
+elif [[ -n "$ZSH_VERSION" ]]; then
+    # If we're in Zsh, use bindkey
+    bindkey -s '\e1' 'trident jump 2\n'
+    bindkey -s '\e2' 'trident jump 2\n'
+    bindkey -s '\e3' 'trident jump 3\n'
+    bindkey -s '\e4' 'trident jump 4\n'
+    bindkey -s '\e5' 'trident jump 5\n'
+    bindkey -s '\e6' 'trident jump 6\n'
+    bindkey -s '\e7' 'trident jump 7\n'
+    bindkey -s '\e8' 'trident jump 8\n'
+    bindkey -s '\e9' 'trident jump 9\n'
+    bindkey -s '\e0' 'trident jump 10\n'
 
+    bindkey -s '\ea' 'trident add \n'
+    bindkey -s '^e' 'trident edit\n'
+fi
