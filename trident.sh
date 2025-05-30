@@ -5,13 +5,12 @@
 #    `--'   `--'   `--' `---'  `----'`--''--'  `--'   
 
 trident() {
-    local JUMP_FILE=$XDG_CACHE_HOME/trident
-    local VERSION=1.0.1
+    [ ! -n "$TRIDENT_JUMP_FILE" ] && TRIDENT_JUMP_FILE="${XDG_CACHE_HOME:-$HOME}/trident"
+    VERSION=1.0.1
 
     case "$1" in
         jump|-j)
-            local dir
-            dir=$(sed -n "${2}p" "$JUMP_FILE")
+            dir=$(sed -n "${2}p" "$TRIDENT_JUMP_FILE")
             if [ -d "$dir" ]; then
                 cd $dir
             elif [ -f "$dir" ]; then
@@ -19,21 +18,20 @@ trident() {
             fi
             ;;
         add|-a)
-            local file="$(pwd)/$2"
-
+            file="$(pwd)/$2"
             if [ -f "$file" ]; then
                 echo "Trident - adding file: $file"
-                echo "$file" >> "$JUMP_FILE"
+                echo "$file" >> "$TRIDENT_JUMP_FILE"
             else 
                 echo "Trident - adding dir: $(pwd)/"
-                echo "$(pwd)/" >> "$JUMP_FILE"
+                echo "$(pwd)/" >> "$TRIDENT_JUMP_FILE"
             fi
             ;;
         edit|-e) 
-            eval "$EDITOR $JUMP_FILE"
+            eval "$EDITOR $TRIDENT_JUMP_FILE"
             ;;
         list|-l) 
-            cat "$JUMP_FILE"
+            cat "$TRIDENT_JUMP_FILE"
             ;;
         help|--help|-h)
             echo "Usage: trident <command> [arguments]"
@@ -89,17 +87,17 @@ if [[ -n "$BASH_VERSION" ]]; then
 
 elif [[ -n "$ZSH_VERSION" ]]; then
     # If we're in Zsh, use bindkey
-    bindkey -s '\e1' 'trident jump 1\n'
-    bindkey -s '\e2' 'trident jump 2\n'
-    bindkey -s '\e3' 'trident jump 3\n'
-    bindkey -s '\e4' 'trident jump 4\n'
-    bindkey -s '\e5' 'trident jump 5\n'
-    bindkey -s '\e6' 'trident jump 6\n'
-    bindkey -s '\e7' 'trident jump 7\n'
-    bindkey -s '\e8' 'trident jump 8\n'
-    bindkey -s '\e9' 'trident jump 9\n'
-    bindkey -s '\e0' 'trident jump 10\n'
+    bindkey -s '^[1' '^Utrident jump 1\n'
+    bindkey -s '^[2' '^Utrident jump 2\n'
+    bindkey -s '^[3' '^Utrident jump 3\n'
+    bindkey -s '^[4' '^Utrident jump 4\n'
+    bindkey -s '^[5' '^Utrident jump 5\n'
+    bindkey -s '^[6' '^Utrident jump 6\n'
+    bindkey -s '^[7' '^Utrident jump 7\n'
+    bindkey -s '^[8' '^Utrident jump 8\n'
+    bindkey -s '^[9' '^Utrident jump 9\n'
+    bindkey -s '^[0' '^Utrident jump 10\n'
 
-    bindkey -s '\ea' 'trident add \n'
-    bindkey -s '^e' 'trident edit\n'
+    bindkey -s '^[a' '^Utrident add \n'
+    bindkey -s '^e' '^Utrident edit\n'
 fi
