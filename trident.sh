@@ -89,7 +89,7 @@ if [[ -n "$BASH_VERSION" ]]; then
 
 elif [[ -n "$ZSH_VERSION" ]]; then
     # If we're in Zsh, use bindkey
-    bindkey -s '\e1' 'trident jump 2\n'
+    bindkey -s '\e1' 'trident jump 1\n'
     bindkey -s '\e2' 'trident jump 2\n'
     bindkey -s '\e3' 'trident jump 3\n'
     bindkey -s '\e4' 'trident jump 4\n'
